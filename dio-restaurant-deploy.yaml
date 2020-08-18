@@ -123,10 +123,10 @@ spec:
             cpu: 100m
             memory: 128Mi
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         env:
         - name: PORT
-          value: "3000"
+          value: "80"
         - name: KAFKA_BROKER_URI
           value: "kafka:9092"
 ---
@@ -137,7 +137,7 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 3000
+  - port: 80
   selector:
     app: dio-waiter
 ---
