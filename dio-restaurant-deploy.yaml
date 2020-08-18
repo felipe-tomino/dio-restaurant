@@ -25,7 +25,7 @@ spec:
             cpu: 100m
             memory: 128Mi
         ports:
-        - containerPort: 9092
+        - containerPort: 2181
         env:
         - name: ZOOKEEPER_CLIENT_PORT
           value: "2181"
@@ -38,7 +38,7 @@ metadata:
   name: zookeeper
 spec:
   ports:
-  - port: 9092
+  - port: 2181
   selector:
     app: zookeeper
 ---
@@ -89,6 +89,7 @@ kind: Service
 metadata:
   name: kafka
 spec:
+  type: LoadBalancer
   ports:
   - port: 9092
   selector:
@@ -113,6 +114,7 @@ spec:
       containers:
       - name: dio-waiter
         image: felipetomino/dio-waiter:latest
+        command: ["yarn prod"]
         resources:
           requests:
             cpu: 100m
@@ -158,6 +160,7 @@ spec:
       containers:
       - name: dio-cooker
         image: felipetomino/dio-kitchen:latest
+        command: ["yarn prod"]
         resources:
           requests:
             cpu: 100m
@@ -198,6 +201,7 @@ spec:
       containers:
       - name: dio-bartender
         image: felipetomino/dio-kitchen:latest
+        command: ["yarn prod"]
         resources:
           requests:
             cpu: 100m
