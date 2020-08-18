@@ -113,7 +113,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: dio-waiter
-        image: felipetomino/dio-waiter:latest
+        image: dio-waiter:latest
         command: ["yarn prod"]
         resources:
           requests:
@@ -161,7 +161,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: dio-cooker
-        image: felipetomino/dio-kitchen:latest
+        image: dio-kitchen:latest
         command: ["yarn prod"]
         resources:
           requests:
@@ -204,7 +204,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: dio-bartender
-        image: felipetomino/dio-kitchen:latest
+        image: dio-kitchen:latest
         command: ["yarn prod"]
         resources:
           requests:
