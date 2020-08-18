@@ -179,6 +179,7 @@ kind: Service
 metadata:
   name: dio-cooker
 spec:
+  ports:
   selector:
     app: dio-cooker
 ---
@@ -220,5 +221,6 @@ kind: Service
 metadata:
   name: dio-bartender
 spec:
+  ports:
   selector:
     app: dio-bartender
