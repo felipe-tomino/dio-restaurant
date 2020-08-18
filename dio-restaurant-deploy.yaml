@@ -25,7 +25,7 @@ spec:
             cpu: 100m
             memory: 128Mi
         ports:
-        - containerPort: 9092
+        - port: 9092
         env:
         - name: ZOOKEEPER_CLIENT_PORT
           value: "2181"
@@ -69,7 +69,7 @@ spec:
             cpu: 100m
             memory: 128Mi
         ports:
-        - containerPort: 9092
+        - port: 9092
         env:
         - name: KAFKA_BROKER_ID
           value: "1"
@@ -121,7 +121,7 @@ spec:
             cpu: 100m
             memory: 128Mi
         ports:
-        - containerPort: 3000
+        - port: 3000
         env:
         - name: PORT
           value: "3000"
@@ -165,8 +165,6 @@ spec:
           limits:
             cpu: 100m
             memory: 128Mi
-        ports:
-        - containerPort: 3000
         env:
         - name: CONSUMER_TYPE
           value: "Cooker"
@@ -178,22 +176,8 @@ kind: Service
 metadata:
   name: dio-cooker
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 3000
   selector:
     app: dio-cooker
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dio-waiter
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 3000
-  selector:
-    app: dio-waiter
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -221,8 +205,6 @@ spec:
           limits:
             cpu: 100m
             memory: 128Mi
-        ports:
-        - containerPort: 3000
         env:
         - name: CONSUMER_TYPE
           value: "Bartender"
@@ -234,8 +216,5 @@ kind: Service
 metadata:
   name: dio-bartender
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 3000
   selector:
     app: dio-bartender
