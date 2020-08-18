@@ -180,6 +180,7 @@ metadata:
   name: dio-cooker
 spec:
   ports:
+  - port: 4000
   selector:
     app: dio-cooker
 ---
@@ -222,5 +223,6 @@ metadata:
   name: dio-bartender
 spec:
   ports:
+  - port: 5000
   selector:
     app: dio-bartender
