@@ -68,6 +68,8 @@ services:
       - PORT=4000
     ports:
       - 4000:4000
+    links:
+      - redis
     depends_on:
       - kafka
     volumes:
