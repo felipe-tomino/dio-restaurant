@@ -5,6 +5,7 @@ volumes:
   waiter-node-modules:
   kitchen-node-modules:
   delivery-app-node-modules:
+  motoboy-node-modules:
   redis:
 
 services:
@@ -105,3 +106,17 @@ services:
     volumes:
       - ./kitchen:/home/node/app:cached
       - kitchen-node-modules:/home/node/app/node_modules
+
+  motoboy:
+    build:
+      context: motoboy
+      dockerfile: Dockerfile
+    working_dir: /home/node/app
+    command: yarn dev
+    environment:
+      - KAFKA_BROKER_URI=kafka:29092
+    depends_on:
+      - kafka
+    volumes:
+      - ./motoboy:/home/node/app:cached
+      - motoboy-node-modules:/home/node/app/node_modules
