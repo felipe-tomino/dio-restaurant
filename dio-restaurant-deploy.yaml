@@ -106,8 +106,6 @@ kind: Service
 metadata:
   name: dio-cooker
 spec:
-  ports:
-  - port: 4000
   selector:
     app: dio-cooker
 ---
@@ -160,7 +158,114 @@ kind: Service
 metadata:
   name: dio-bartender
 spec:
-  ports:
-  - port: 5000
   selector:
     app: dio-bartender
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dio-restaurant-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dio-restaurant-app
+  template:
+    metadata:
+      labels:
+        app: dio-restaurant-app
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: dio-restaurant-app
+        image: felipetomino.azurecr.io/dio-restaurant-app:latest
+        command: ["yarn", "prod"]
+        ports:
+        - containerPort: 4000
+        env:
+        - name: PORT
+          value: "4000"
+        - name: KAFKA_BROKER_URI
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_BROKER_URI
+        - name: KAFKA_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_USERNAME
+        - name: KAFKA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_PASSWORD
+        - name: KAFKA_TOPIC_PREFIX
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_TOPIC_PREFIX
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dio-restaurant-app
+spec:
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 4000
+  selector:
+    app: dio-restaurant-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dio-motoboy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dio-motoboy
+  template:
+    metadata:
+      labels:
+        app: dio-motoboy
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: dio-motoboy
+        image: felipetomino.azurecr.io/dio-motoboy:latest
+        command: ["yarn", "prod"]
+        env:
+        - name: KAFKA_BROKER_URI
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_BROKER_URI
+        - name: KAFKA_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_USERNAME
+        - name: KAFKA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_PASSWORD
+        - name: KAFKA_TOPIC_PREFIX
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_TOPIC_PREFIX
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dio-motoboy
+spec:
+  selector:
+    app: dio-motoboy
