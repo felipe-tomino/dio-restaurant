@@ -20,13 +20,16 @@ services:
       - zookeeper
     ports:
       - 9092:9092
+      - 29092:29092
     environment:
+      KAFKA_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://0.0.0.0:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:29092,EXTERNAL://kafka:9092
+      KAFKA_SOCKET_REQUEST_MAX_BYTES: 869295616
 
   redis:
     image: redis
@@ -43,7 +46,7 @@ services:
     working_dir: /home/node/app
     command: yarn dev
     environment:
-      - KAFKA_BROKER_URI=kafka:9092
+      - KAFKA_BROKER_URI=kafka:29092
       - PORT=3000
     ports:
       - 3000:3000
@@ -60,7 +63,7 @@ services:
     working_dir: /home/node/app
     command: yarn dev
     environment:
-      - KAFKA_BROKER_URI=kafka:9092
+      - KAFKA_BROKER_URI=kafka:29092
       - REDIS_HOST=redis
       - PORT=4000
     ports:
@@ -78,7 +81,7 @@ services:
     working_dir: /home/node/app
     command: yarn dev
     environment:
-      - KAFKA_BROKER_URI=kafka:9092
+      - KAFKA_BROKER_URI=kafka:29092
       - CONSUMER_TYPE=Cooker
     depends_on:
       - kafka
@@ -93,7 +96,7 @@ services:
     working_dir: /home/node/app
     command: yarn dev
     environment:
-      - KAFKA_BROKER_URI=kafka:9092
+      - KAFKA_BROKER_URI=kafka:29092
       - CONSUMER_TYPE=Bartender
     depends_on:
       - kafka
