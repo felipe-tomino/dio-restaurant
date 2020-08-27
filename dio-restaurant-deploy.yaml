@@ -24,13 +24,25 @@ spec:
         - name: PORT
           value: "3000"
         - name: KAFKA_BROKER_URI
-          value: "rocket-01.srvs.cloudkafka.com:9094,rocket-02.srvs.cloudkafka.com:9094,rocket-03.srvs.cloudkafka.com:9094"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_BROKER_URI
         - name: KAFKA_USERNAME
-          value: "9mn15co4"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_USERNAME
         - name: KAFKA_PASSWORD
-          value: "t3kG-7Dhh1Iy4O_O1-ItHAdnEbMF7y6Q"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_PASSWORD
         - name: KAFKA_TOPIC_PREFIX
-          value: "9mn15co4-"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_TOPIC_PREFIX
 ---
 apiVersion: v1
 kind: Service
@@ -69,13 +81,25 @@ spec:
         - name: CONSUMER_TYPE
           value: "Cooker"
         - name: KAFKA_BROKER_URI
-          value: "rocket-01.srvs.cloudkafka.com:9094,rocket-02.srvs.cloudkafka.com:9094,rocket-03.srvs.cloudkafka.com:9094"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_BROKER_URI
         - name: KAFKA_USERNAME
-          value: "9mn15co4"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_USERNAME
         - name: KAFKA_PASSWORD
-          value: "t3kG-7Dhh1Iy4O_O1-ItHAdnEbMF7y6Q"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_PASSWORD
         - name: KAFKA_TOPIC_PREFIX
-          value: "9mn15co4-"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_TOPIC_PREFIX
 ---
 apiVersion: v1
 kind: Service
@@ -111,13 +135,25 @@ spec:
         - name: CONSUMER_TYPE
           value: "Bartender"
         - name: KAFKA_BROKER_URI
-          value: "rocket-01.srvs.cloudkafka.com:9094,rocket-02.srvs.cloudkafka.com:9094,rocket-03.srvs.cloudkafka.com:9094"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_BROKER_URI
         - name: KAFKA_USERNAME
-          value: "9mn15co4"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_USERNAME
         - name: KAFKA_PASSWORD
-          value: "t3kG-7Dhh1Iy4O_O1-ItHAdnEbMF7y6Q"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_PASSWORD
         - name: KAFKA_TOPIC_PREFIX
-          value: "9mn15co4-"
+          valueFrom:
+            secretKeyRef:
+              name: dio-restaurant-secret
+              key: KAFKA_TOPIC_PREFIX
 ---
 apiVersion: v1
 kind: Service
