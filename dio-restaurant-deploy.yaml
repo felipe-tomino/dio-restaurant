@@ -148,22 +148,22 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dio-restaurant-app
+  name: dio-delivery-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dio-restaurant-app
+      app: dio-delivery-app
   template:
     metadata:
       labels:
-        app: dio-restaurant-app
+        app: dio-delivery-app
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-      - name: dio-restaurant-app
-        image: felipetomino.azurecr.io/dio-restaurant-app:latest
+      - name: dio-delivery-app
+        image: felipetomino.azurecr.io/dio-delivery-app:latest
         command: ["yarn", "prod"]
         ports:
         - containerPort: 4000
@@ -190,11 +190,17 @@ spec:
             secretKeyRef:
               name: dio-restaurant-secret
               key: KAFKA_TOPIC_PREFIX
+        - name: REDIS_PASSWORD
+          value: redis
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: '6379'
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: dio-restaurant-app
+  name: dio-delivery-app
 spec:
   type: LoadBalancer
   ports:
@@ -202,7 +208,7 @@ spec:
     port: 80
     targetPort: 4000
   selector:
-    app: dio-restaurant-app
+    app: dio-delivery-app
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -245,3 +251,36 @@ spec:
             secretKeyRef:
               name: dio-restaurant-secret
               key: KAFKA_TOPIC_PREFIX
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis
+        command: ["redis-server", "--requirepass", "redis"]
+        ports:
+        - containerPort: 6379
+          name: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    app: redis
