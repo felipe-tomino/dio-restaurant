@@ -101,14 +101,6 @@ spec:
               name: dio-restaurant-secret
               key: KAFKA_TOPIC_PREFIX
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: dio-cooker
-spec:
-  selector:
-    app: dio-cooker
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -152,14 +144,6 @@ spec:
             secretKeyRef:
               name: dio-restaurant-secret
               key: KAFKA_TOPIC_PREFIX
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dio-bartender
-spec:
-  selector:
-    app: dio-bartender
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -261,11 +245,3 @@ spec:
             secretKeyRef:
               name: dio-restaurant-secret
               key: KAFKA_TOPIC_PREFIX
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: dio-motoboy
-spec:
-  selector:
-    app: dio-motoboy
