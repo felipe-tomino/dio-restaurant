@@ -68,8 +68,7 @@ OBS: às vezes o container do kafka tem alguns problemas para subir na primeira 
 Agora precisamos criar os tópicos que serão usados. Para isso, rodamos os seguintes comandos:
 
 ```bash
-docker-compose exec kafka kafka-topics --create --topic food --partitions 4 --replication-factor 1 --if-not-exists --zookeeper zookeeper:2181
-docker-compose exec kafka kafka-topics --create --topic drinks --partitions 4 --replication-factor 1 --if-not-exists --zookeeper zookeeper:2181
+docker-compose exec kafka kafka-topics --create --topic order --partitions 4 --replication-factor 1 --if-not-exists --zookeeper zookeeper:2181
 docker-compose exec kafka kafka-topics --create --topic balcony --partitions 4 --replication-factor 1 --if-not-exists --zookeeper zookeeper:2181
 docker-compose exec kafka kafka-topics --create --topic deliveryBalcony --partitions 4 --replication-factor 1 --if-not-exists --zookeeper zookeeper:2181
 docker-compose exec kafka kafka-topics --create --topic delivery --partitions 4 --replication-factor 1 --if-not-exists --zookeeper zookeeper:2181
