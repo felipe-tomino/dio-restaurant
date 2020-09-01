@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: dio-waiter
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: dio-waiter
@@ -54,15 +54,32 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 3000
+    name: http
   selector:
     app: dio-waiter
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-nginx
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: dio-waiter
+          servicePort: 80
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dio-cooker
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: dio-cooker
@@ -106,7 +123,7 @@ kind: Deployment
 metadata:
   name: dio-bartender
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: dio-bartender
@@ -215,7 +232,7 @@ kind: Deployment
 metadata:
   name: dio-motoboy
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: dio-motoboy

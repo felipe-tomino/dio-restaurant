@@ -66,6 +66,8 @@ services:
     environment:
       - KAFKA_BROKER_URI=kafka:29092
       - REDIS_HOST=redis
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT=6379
       - PORT=4000
     ports:
       - 4000:4000
